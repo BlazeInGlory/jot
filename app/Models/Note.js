@@ -4,9 +4,9 @@ export class Note {
   constructor(data) {
     this.id = data.id || generateId()
     this.title = data.title
-    this.body = data.body
-    this.createdAt = new Date().toLocaleTimeString('en-US')
-    this.updatedAt = new Date().toLocaleTimeString('en-US')
+    this.body = data.body || 'heya'
+    this.createdAt = data.createdAt || new Date().toLocaleTimeString('en-US')
+    this.updatedAt = data.Updated || new Date().toLocaleTimeString('en-US')
     this.words = data.words
     this.characters = data.characters
     this.account = data.account
@@ -27,14 +27,15 @@ export class Note {
         </div>
       </div>
       <div class="col-md-6 my-5">
-        <form onsubmit="app.notesController.saveNote()">
-          <textarea class="textArea" id="newNoteId" name="body" cols="55" rows="20">${this.body}
+        <form onsubmit="app.notesController.saveNote('${this.id}')">
+          <textarea class="textArea" id="noteBody" name="body" cols="55" rows="20">${this.body}
         </textarea>
-        <button onclick="app.notesController.updateNote()" class="btn btn-outline-secondary bg-light"><i
+        <button onclick="app.notesController.updateNote(${this.id})
+         class="btn btn-outline-secondary bg-light"><i
             class="mdi mdi-plus-circle-outline"></i>add</button>
       </div>
       <div class="col-md-2">
-        <button class="btn btn-danger mt-3 text-end" onclick="app.notesController.deleteNote(${this.id})">
+        <button class="btn btn-danger mt-3 text-end" onclick="app.notesController.deleteNote('${this.id}')">
           <i class="mdi mdi-trash-can-outline"></i></button>
       </div>
       </form>
@@ -43,13 +44,11 @@ export class Note {
   }
 
 
-  get updatedNote() {
+  get noteTitle() {
     return `
-    
+    <button onclick="app.notesController.setNote('${this.id}')">${this.title}</button>
     `
   }
-
-
 
 
 

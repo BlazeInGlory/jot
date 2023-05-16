@@ -33,7 +33,7 @@
 
   <main class="bg-dark text-light">
     <div class="container">
-      <div class="row" id="noteID">
+      <div class="row" id="newNoteId">
 
         <!-- <div class="col-12 my-5 border">
           <div class="row">
@@ -84,6 +84,9 @@
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body bg-dark text-light">
+      <div>
+        <h1>number of total notes:<span id="numberOfNotes">0</span> </h1>
+      </div>
       <form onsubmit="app.notesController.createNote()">
         <input id="title" name="title" type="text" placeholder="Create Note" maxlength="15" minlength="3">
         <input type="color" name="color" id="noteColor">
@@ -92,6 +95,9 @@
         <button type="submit" class="btn btn-outline-secondary bg-light"><i
             class="mdi mdi-plus-circle-outline"></i>add</button>
       </form>
+      <div id="noteID">
+        <!-- <button onclick="app.notesController.setNote(noteId)">Title</button> -->
+      </div>
     </div>
   </div>
 

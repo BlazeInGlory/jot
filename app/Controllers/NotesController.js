@@ -1,46 +1,57 @@
 import { appState } from "../AppState.js";
 import { getFormData } from "../Utils/FormHandler.js";
 import { Pop } from "../Utils/Pop.js";
-import { setHTML } from "../Utils/Writer.js";
+import { setHTML, setText } from "../Utils/Writer.js";
 import { notesService } from "../Services/NotesService.js"
 
+
+function getNoteTitle() {
+  let freshNote = appState.note
+  let template = ''
+  freshNote.forEach(c => template += c.noteTitle)
+  setHTML('noteID', template)
+}
 
 function _getNotes() {
   let notes = appState.note
   let template = ''
-  // let filterNotes = notes.filter(n => n.account == appState.activeNote)
   notes.forEach(n => template += n.notesTemplate)
-  setHTML('noteID', template)
+  setHTML('noteTitle', template)
 }
 
 function _drawActive() {
   console.log('drawing active');
   let activeNote = appState.activeNote
-  setHTML('newNoteId', activeNote.ActiveTemplate)
+  setHTML('newNoteId', activeNote?.notesTemplate)
 }
 
-
+function totalNotes(){
+  setText('numberOfNotes', appState.note.length)
+}
 
 
 
 export class NotesController {
   constructor() {
-    // console.log("Notes Controller is linked to front end")
-    // _drawCreateNoteButton
     appState.on('activeNote', _drawActive)
     appState.on('note', _getNotes)
-    // appState.on('userName', _drawCreateNoteButton)
-
-
+    appState.on('note', getNoteTitle)
+    appState.on('note', totalNotes)
+    getNoteTitle()
+    totalNotes()
+    
     this.createAccount()
-    this.getNotes()
-
   }
+
+  setNote(noteId) {
+    notesService.setNote(noteId)
+  }
+
   async createAccount() {
     let accountName = await Pop.prompt("Enter your name!")
     if (!accountName) return
     notesService.createAccount(accountName)
-    window.event.preventDefault()
+    // window.event.preventDefault()
   }
 
   createNote() {
@@ -56,32 +67,35 @@ export class NotesController {
     // @ts-ignore
     formHTML.reset()
   }
-  getNotes() {
-    _getNotes()
-  }
 
-  updateNote() {
-    window.event.preventDefault()
-    let note = document.getElementById('newNoteId')
+  updateNote(noteId) {
     // @ts-ignore
-    let updatedNote = note.value
-    console.log(updatedNote, "This is my updated Note log")
-    notesService.updateNote(updatedNote)
+    window.event.preventDefault()
+    let note = {}
+    note.body = document.getElementById('noteBody')?.innerText
+    note.id = noteId
+    // @ts-ignore
+    // let updatedNote = note.value
+    console.log(note, "This is my updated Note log")
+    notesService.updateNote(note)
   }
 
 
   async deleteNote(noteId) {
-
+    console.log("did u delete?")
     const yes = await Pop.confirm('Are you sure?')
     if (!yes) { return }
     notesService.deleteNote(noteId)
   }
 
-  // saveNote() {
-  //   let note = document.getElementById('noteBody')
-  //   let noteBody = note.value
-  //   notesService.saveNotes(noteBody)
-  // }
+  saveNote(noteId) {
+    window.event?.preventDefault()
+    // @ts-ignore
+    let note = {}
+    note.body = document.getElementById('noteBody')?.innerHTML
+    note.id = noteId
+    notesService._saveNotes(note)
+  }
 
 
 
