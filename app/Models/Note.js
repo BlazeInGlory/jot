@@ -30,7 +30,7 @@ export class Note {
         <form onsubmit="app.notesController.saveNote('${this.id}')">
           <textarea class="textArea" id="noteBody" name="body" cols="55" rows="20">${this.body}
         </textarea>
-        <button onclick="app.notesController.updateNote(${this.id})
+        <button
          class="btn btn-outline-secondary bg-light"><i
             class="mdi mdi-plus-circle-outline"></i>add</button>
       </div>

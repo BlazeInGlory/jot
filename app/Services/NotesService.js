@@ -2,7 +2,7 @@ import { appState } from "../AppState.js";
 import { Note } from "../Models/Note.js";
 import { saveState } from "../Utils/Store.js";
 import { NotesController } from "../Controllers/NotesController.js";
-
+import { EventEmitter } from "../Utils/EventEmitter.js";
 
 class NotesService {
   setNote(noteId) {
@@ -43,7 +43,7 @@ console.log(note)
     let newNote = new Note(formData)
     appState.note.push(newNote)
     // this._saveNotes()
-    // appState.emit('note')
+    appState.emit('note')
     console.log(appState.note, "This is the newly created note object")
   }
 
@@ -61,7 +61,7 @@ console.log(note)
     let noteToDelete = appState.note.find(n => n.id == noteId)
     appState.note = appState.note.filter(n => n.id != noteId)
     console.log(noteToDelete, "Is it gone?")
-    this._saveNotes()
+    // this._saveNotes()
     appState.emit('note')
   }
 }

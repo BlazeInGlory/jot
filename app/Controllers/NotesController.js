@@ -12,12 +12,12 @@ function getNoteTitle() {
   setHTML('noteID', template)
 }
 
-function _getNotes() {
-  let notes = appState.note
-  let template = ''
-  notes.forEach(n => template += n.notesTemplate)
-  setHTML('noteTitle', template)
-}
+// function _getNotes() {
+//   let notes = appState.note
+//   let template = ''
+//   notes.forEach(n => template += n.notesTemplate)
+//   setHTML('noteTitle', template)
+// }
 
 function _drawActive() {
   console.log('drawing active');
@@ -34,7 +34,7 @@ function totalNotes(){
 export class NotesController {
   constructor() {
     appState.on('activeNote', _drawActive)
-    appState.on('note', _getNotes)
+    // appState.on('note', _getNotes)
     appState.on('note', getNoteTitle)
     appState.on('note', totalNotes)
     getNoteTitle()
@@ -65,7 +65,7 @@ export class NotesController {
     console.log(formData, "This is Create note form data")
     notesService.createNote(formData)
     // @ts-ignore
-    formHTML.reset()
+    // formHTML.reset()
   }
 
   updateNote(noteId) {
